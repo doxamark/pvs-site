@@ -1,0 +1,44 @@
+<ul class="layout-menu">
+    <div style="display: flex; justify-content: center">
+        <img
+            src="assets/layout/images/pvs_logo.png"
+            alt="Prime Blocks"
+            class="w-100 mt-3 mb-3"
+        />
+    </div>
+    <br>
+
+    <div
+        style="
+            display: flex;
+            flex-direction: column;
+            align-items: space-between;
+            height: 85%;
+        "
+    >
+        <div>
+            <ng-container *ngFor="let item of model; let i = index">
+                <li
+                    app-menuitem
+                    *ngIf="!item.separator"
+                    [item]="item"
+                    [index]="i"
+                    [root]="true"
+                ></li>
+                <li *ngIf="item.separator" class="menu-separator"></li>
+            </ng-container>
+        </div>
+
+        <div style="margin-top: auto">
+            <ng-container>
+                <li
+                    app-menuitem
+                    *ngIf="true"
+                    [item]="logout"
+                    [root]="true"
+                    style="display: flex; justify-content: center"
+                ></li>
+            </ng-container>
+        </div>
+    </div>
+</ul>
