@@ -9,11 +9,16 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { ButtonModule } from 'primeng/button';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { PasswordModule } from 'primeng/password';
+import { LoginComponent } from './login/login.component';
+import { InputTextModule } from 'primeng/inputtext';
 
 
 @NgModule({
     declarations: [
-        DashboardComponent
+        DashboardComponent, 
+        LoginComponent
     ],
     imports: [
         CommonModule,
@@ -25,6 +30,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
         StyleClassModule,
         PanelMenuModule,
         ButtonModule,
+        HighchartsChartModule,
+        PasswordModule,
+        InputTextModule
         
     ],
     providers: [],

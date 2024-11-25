@@ -1,0 +1,102 @@
+.login-section {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* Allows sections to stack on smaller screens */
+    justify-content: center;
+  }
+  
+  .section {
+    width: 50%;
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  
+    @media (max-width: 768px) { /* For tablets and smaller screens */
+      padding: 10px; /* Reduce padding for smaller screens */
+    }
+  }
+  
+  .card {
+    width: 400px;
+    height: 400px;
+  
+    
+  }
+  
+  .bg-img {
+    position: relative;
+    background-image: url('/assets/layout/images/bgimage.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 50%;
+    height: 100vh;
+    z-index: 1;
+  
+    @media (max-width: 768px) {
+        width: 90%; /* Adjust content width for smaller screens */
+        font-size: 14px; /* Increase font size for better readability */
+        display: none;
+      }
+  
+      @media (max-width: 1000px) {
+          width: 95%; /* Adjust content width for smaller screens */
+          display: none;
+        }
+  }
+  
+  .bg-img::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+  }
+  
+  .section-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    width: 80%;
+    color: white;
+    text-align: justify;
+  
+    @media (max-width: 768px) {
+      width: 90%; /* Adjust content width for smaller screens */
+      font-size: 14px; /* Increase font size for better readability */
+      display: none;
+    }
+
+    @media (max-width: 1000px) {
+        width: 95%; /* Adjust content width for smaller screens */
+        display: none;
+      }
+  }
+  
+  .section-content h3 {
+    color: white;
+  }
+  
+  .logo img {
+    max-width: 200px;
+    height: auto;
+  
+    @media (max-width: 768px) {
+      max-width: 150px; /* Scale logo for smaller screens */
+    }
+  }
+  
+
+  :host ::ng-deep .p-button {
+    background-color: #0a3a6c;
+    border: #0a3a6c;
+  }
+
