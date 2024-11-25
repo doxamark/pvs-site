@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { Product } from 'src/app/shared/api/product';
-import { ProductService } from 'src/app/shared/service/product.service';
+import { StatisticService } from 'src/app/shared/service/statistic.service';
+import { forkJoin } from 'rxjs';
 
 import * as Highcharts from 'highcharts/highmaps';
 import Drilldown from 'highcharts/modules/drilldown';
@@ -19,29 +18,31 @@ export class DashboardComponent implements OnInit, OnDestroy {
     totalSavings: number = 0;
     totalTaxes: number = 0;
     totalValue: number = 0;
+
+    totalSavingsPerYear: number[] = [];
+    totalTaxesPerYear: number[] = [];
+    totalValuePerYear: number[] = [];
+
     clientSavings: any[] = [];
     clientTaxes: any[] = [];
     clientPropertyValues: any[] = [];
     topAssessors: any[] = [];
     taxesPerState: any[] = [];
 
+    clientSavingsChartData: any;
+    clientTaxesChartData: any;
+    clientPropertyValuesChartData: any;
 
     Highcharts: any;
     chartConstructor = 'mapChart';
     chartOptions: any;
 
-    items!: MenuItem[];
-    products!: Product[];
-    chartData: any;
+    products!: any[];
+
     chartMapOptions: any;
     subscription!: Subscription;
 
-    options: any = {
-        responsive: false,
-        maintainAspectRatio: false,
-    };
-
-    basicData = {
+    topAssessorsData: any = {
         labels: [
             'Los Angeles',
             'San Diego',
@@ -100,7 +101,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
 
     constructor(
-        private productService: ProductService,
+        private statisticService: StatisticService,
         public layoutService: LayoutService
     ) {
         this.subscription = this.layoutService.configUpdate$
@@ -111,20 +112,44 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.getStatistics();
         this.initChart();
-        this.productService
-            .getProductsSmall()
-            .then((data) => (this.products = data));
+        this.initMap()
+        
+    }
 
-        this.items = [
-            { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-            { label: 'Remove', icon: 'pi pi-fw pi-minus' },
-        ];
+    getStatistics() {
+        forkJoin({
+            totalSavingsPerYear: this.statisticService.getClientSavings(),
+            totalTaxesPerYear: this.statisticService.getClientTaxes(),
+            totalValuePerYear: this.statisticService.getClientValue(),
+            clientTrends: this.statisticService.getClientTrends(),
+            taxesPerState: this.statisticService.getTaxesPerState(),
+            topAssessors: this.statisticService.getTopAssessors(),
+        }).subscribe(
+            ({
+                totalSavingsPerYear,
+                totalTaxesPerYear,
+                totalValuePerYear,
+                clientTrends,
+                taxesPerState,
+                topAssessors,
+            }) => {
+                this.totalSavingsPerYear = totalSavingsPerYear;
+                this.totalTaxesPerYear = totalTaxesPerYear;
+                this.totalValuePerYear = totalValuePerYear;
+                this.clientSavings = clientTrends.clientSavingsTrend;
+                this.clientTaxes = clientTrends.clientTaxesTrend;
+                this.clientPropertyValues = clientTrends.clientValueTrend;
+                this.taxesPerState = taxesPerState;
+                this.topAssessors = topAssessors;
+            }
+        );
+    }
 
+    initMap() {
         this.Highcharts = Highcharts;
-
-        // GDP data for all states (some have 0 values)
-        const gdpData = [
+        const taxesPerStateVar = [
             { id: 'us-ma', name: 'Massachusetts', value: 71340 },
             { id: 'us-ca', name: 'California', value: 78512 },
             { id: 'us-tx', name: 'Texas', value: 68473 },
@@ -211,7 +236,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 {
                     name: 'GDP per State',
                     mapData: usaMap,
-                    data: gdpData,
+                    data: taxesPerStateVar,
                     joinBy: ['hc-key', 'id'],
                     states: {
                         hover: {
@@ -236,7 +261,51 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const surfaceBorder =
             documentStyle.getPropertyValue('--surface-border');
 
-        this.chartData = {
+        this.clientSavingsChartData = {
+            labels: [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+            ],
+            datasets: [
+                {
+                    label: 'Client Savings Trend Over The Years',
+                    data: [28, 48, 40, 19, 86, 27, 90],
+                    fill: true,
+                    backgroundColor: '#d6efff',
+                    borderColor: documentStyle.getPropertyValue('--blue-300'),
+                    tension: 0.4,
+                },
+            ],
+        };
+
+        this.clientTaxesChartData = {
+            labels: [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+            ],
+            datasets: [
+                {
+                    label: 'Client Taxes Trend Over The Years',
+                    data: [28, 48, 40, 19, 86, 27, 90],
+                    fill: true,
+                    backgroundColor: '#d6efff',
+                    borderColor: documentStyle.getPropertyValue('--blue-300'),
+                    tension: 0.4,
+                },
+            ],
+        };
+
+        this.clientPropertyValuesChartData = {
             labels: [
                 'January',
                 'February',

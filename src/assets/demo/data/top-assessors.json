@@ -1,0 +1,37 @@
+{
+	"data": {
+		"California": [
+			{"name": "Los Angeles", "value": 71340},
+			{"name": "San Diego", "value": 78512},
+			{"name": "Orange", "value": 68473},
+			{"name": "San Bernardino", "value": 78039},
+			{"name": "Riverside", "value": 55623},
+			{"name": "Santa Clara", "value": 40000},
+			{"name": "Alameda", "value": 0},
+			{"name": "Sacramento", "value": 0},
+			{"name": "Fresno", "value": 0},
+			{"name": "San Francisco", "value": 52000}
+		],
+		"Texas": [
+			{"name": "Houston", "value": 90000},
+			{"name": "San Antonio", "value": 85000},
+			{"name": "Dallas", "value": 75000},
+			{"name": "Austin", "value": 70000},
+			{"name": "Fort Worth", "value": 60000}
+		],
+		"New York": [
+			{"name": "New York City", "value": 150000},
+			{"name": "Buffalo", "value": 50000},
+			{"name": "Rochester", "value": 40000},
+			{"name": "Yonkers", "value": 30000},
+			{"name": "Syracuse", "value": 20000}
+		],
+		"Florida": [
+			{"name": "Miami", "value": 95000},
+			{"name": "Orlando", "value": 70000},
+			{"name": "Tampa", "value": 65000},
+			{"name": "Jacksonville", "value": 60000},
+			{"name": "St. Petersburg", "value": 50000}
+		]
+	}
+}

@@ -1,0 +1,64 @@
+{
+	"data": [
+		{
+			"id": 1,
+			"name": "Global Enterprises",
+			"phone": "555-3232",
+			"address_1": "123 Main St",
+			"address_2": "Suite 400",
+			"city": "Metropolis",
+			"state": "CA",
+			"zip": "90210",
+			"loa_expires": "2024-12-31",
+			"web_site": "https://globalenterprises.com"
+		},
+		{
+			"id": 2,
+			"name": "Innovate Solutions",
+			"phone": "555-1234",
+			"address_1": "456 Elm St",
+			"address_2": "Apt 12B",
+			"city": "Springfield",
+			"state": "IL",
+			"zip": "62701",
+			"loa_expires": "2025-01-15",
+			"web_site": "https://innovatesolutions.com"
+		},
+		{
+			"id": 3,
+			"name": "Tech Pioneers",
+			"phone": "555-5678",
+			"address_1": "789 Oak Ave",
+			"address_2": "",
+			"city": "Techville",
+			"state": "TX",
+			"zip": "73301",
+			"loa_expires": "2025-06-30",
+			"web_site": "https://techpioneers.com"
+		},
+		{
+			"id": 4,
+			"name": "Demo Industries",
+			"phone": "555-9012",
+			"address_1": "101 Pine Rd",
+			"address_2": "",
+			"city": "Demo City",
+			"state": "NY",
+			"zip": "10001",
+			"loa_expires": "2024-11-30",
+			"web_site": "https://demoindustries.com"
+		},
+		{
+			"id": 5,
+			"name": "Sample Corp",
+			"phone": "555-3456",
+			"address_1": "202 Cedar St",
+			"address_2": "Floor 3",
+			"city": "Sampleton",
+			"state": "FL",
+			"zip": "33101",
+			"loa_expires": "2025-03-31",
+			"web_site": "https://samplecorp.com"
+		}
+	]
+}
