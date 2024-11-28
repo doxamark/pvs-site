@@ -1,37 +1,64 @@
 {
 	"data": {
+		"Alabama": [
+			{"name": "Birmingham", "value": 45000, "tax": 4500},
+			{"name": "Montgomery", "value": 35000, "tax": 3500},
+			{"name": "Huntsville", "value": 30000, "tax": 3000},
+			{"name": "Mobile", "value": 25000, "tax": 2500},
+			{"name": "Tuscaloosa", "value": 20000, "tax": 2000},
+			{"name": "Hoover", "value": 15000, "tax": 1500},
+			{"name": "Dothan", "value": 10000, "tax": 1000},
+			{"name": "Auburn", "value": 9000, "tax": 900},
+			{"name": "Decatur", "value": 8000, "tax": 800},
+			{"name": "Madison", "value": 7000, "tax": 700}
+		],
+		"Alaska": [
+			{"name": "Anchorage", "value": 50000, "tax": 5000},
+			{"name": "Juneau", "value": 20000, "tax": 2000},
+			{"name": "Fairbanks", "value": 15000, "tax": 1500},
+			{"name": "Sitka", "value": 10000, "tax": 1000},
+			{"name": "Ketchikan", "value": 8000, "tax": 800},
+			{"name": "Wasilla", "value": 7000, "tax": 700},
+			{"name": "Kenai", "value": 6000, "tax": 600},
+			{"name": "Kodiak", "value": 5000, "tax": 500},
+			{"name": "Bethel", "value": 4000, "tax": 400},
+			{"name": "Palmer", "value": 3000, "tax": 300}
+		],
+		"Arizona": [
+			{"name": "Phoenix", "value": 85000, "tax": 8500},
+			{"name": "Tucson", "value": 60000, "tax": 6000},
+			{"name": "Mesa", "value": 50000, "tax": 5000},
+			{"name": "Chandler", "value": 40000, "tax": 4000},
+			{"name": "Scottsdale", "value": 35000, "tax": 3500},
+			{"name": "Glendale", "value": 30000, "tax": 3000},
+			{"name": "Gilbert", "value": 25000, "tax": 2500},
+			{"name": "Tempe", "value": 20000, "tax": 2000},
+			{"name": "Peoria", "value": 15000, "tax": 1500},
+			{"name": "Surprise", "value": 10000, "tax": 1000}
+		],
+		"Arkansas": [
+			{"name": "Little Rock", "value": 30000, "tax": 3000},
+			{"name": "Fayetteville", "value": 20000, "tax": 2000},
+			{"name": "Fort Smith", "value": 15000, "tax": 1500},
+			{"name": "Springdale", "value": 10000, "tax": 1000},
+			{"name": "Jonesboro", "value": 8000, "tax": 800},
+			{"name": "Rogers", "value": 7000, "tax": 700},
+			{"name": "North Little Rock", "value": 6000, "tax": 600},
+			{"name": "Conway", "value": 5000, "tax": 500},
+			{"name": "Bentonville", "value": 4000, "tax": 400},
+			{"name": "Hot Springs", "value": 3000, "tax": 300}
+		],
 		"California": [
-			{"name": "Los Angeles", "value": 71340},
-			{"name": "San Diego", "value": 78512},
-			{"name": "Orange", "value": 68473},
-			{"name": "San Bernardino", "value": 78039},
-			{"name": "Riverside", "value": 55623},
-			{"name": "Santa Clara", "value": 40000},
-			{"name": "Alameda", "value": 0},
-			{"name": "Sacramento", "value": 0},
-			{"name": "Fresno", "value": 0},
-			{"name": "San Francisco", "value": 52000}
-		],
-		"Texas": [
-			{"name": "Houston", "value": 90000},
-			{"name": "San Antonio", "value": 85000},
-			{"name": "Dallas", "value": 75000},
-			{"name": "Austin", "value": 70000},
-			{"name": "Fort Worth", "value": 60000}
-		],
-		"New York": [
-			{"name": "New York City", "value": 150000},
-			{"name": "Buffalo", "value": 50000},
-			{"name": "Rochester", "value": 40000},
-			{"name": "Yonkers", "value": 30000},
-			{"name": "Syracuse", "value": 20000}
-		],
-		"Florida": [
-			{"name": "Miami", "value": 95000},
-			{"name": "Orlando", "value": 70000},
-			{"name": "Tampa", "value": 65000},
-			{"name": "Jacksonville", "value": 60000},
-			{"name": "St. Petersburg", "value": 50000}
+			{"name": "Los Angeles", "value": 71340, "tax": 7134},
+			{"name": "San Diego", "value": 78512, "tax": 7851},
+			{"name": "San Francisco", "value": 52000, "tax": 5200},
+			{"name": "San Jose", "value": 61000, "tax": 6100},
+			{"name": "Fresno", "value": 49000, "tax": 4900},
+			{"name": "Sacramento", "value": 46000, "tax": 4600},
+			{"name": "Long Beach", "value": 42000, "tax": 4200},
+			{"name": "Oakland", "value": 38000, "tax": 3800},
+			{"name": "Bakersfield", "value": 34000, "tax": 3400},
+			{"name": "Anaheim", "value": 30000, "tax": 3000}
 		]
 	}
 }

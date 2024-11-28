@@ -1,124 +1,295 @@
 <h4>Dashboard</h4>
-<h3>Fresenius Medical Care</h3>
 
-<div class="grid">
-    <div class="col-12 lg:col-3 xl:col-3">
-        <div class="card mb-0" style="padding: 20px">
-            <div class="flex justify-content-between mb-3">
-                <div>
-                    <span class="block text-500 font-medium mb-1"
-                        >Total Savings</span
-                    >
-                    <div class="text-900 font-medium text-xl">$2.100</div>
-                </div>
-                <div
-                    class="flex align-items-center justify-content-center bg-blue-100 border-round"
-                    [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
-                >
-                    <i class="pi pi-money-bill text-blue-500 text-xl"></i>
-                </div>
-            </div>
-            <span class="text-500">All Time</span>
+<div *ngIf="sectionLoading">
+    <div class="grid">
+        <div class="col-12 lg:col-3 xl:col-3">
+            <p-skeleton height="50px" />
         </div>
     </div>
-    <div class="col-12 lg:col-3 xl:col-3">
-        <div class="card mb-0" style="padding: 20px">
-            <div class="flex justify-content-between mb-3">
-                <div>
-                    <span class="block text-500 font-medium mb-1"
-                        >Total Taxes</span
-                    >
-                    <div class="text-900 font-medium text-xl">$2.100</div>
-                </div>
-                <div
-                    class="flex align-items-center justify-content-center bg-orange-100 border-round"
-                    [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
-                >
-                    <i class="pi pi-calculator text-orange-500 text-xl"></i>
-                </div>
-            </div>
-            <span class="text-500">2024</span>
+    <div class="grid">
+        <div class="col-12 lg:col-3 xl:col-3">
+            <p-skeleton height="125px" />
+        </div>
+        <div class="col-12 lg:col-3 xl:col-3">
+            <p-skeleton height="125px" />
+        </div>
+        <div class="col-12 lg:col-3 xl:col-3">
+            <p-skeleton height="125px" />
         </div>
     </div>
-    <div class="col-12 lg:col-3 xl:col-3">
-        <div class="card mb-0" style="padding: 20px">
-            <div class="flex justify-content-between mb-3">
-                <div>
-                    <span class="block text-500 font-medium mb-1"
-                        >Total Value</span
-                    >
-                    <div class="text-900 font-medium text-xl">$2.100</div>
-                </div>
-                <div
-                    class="flex align-items-center justify-content-center bg-cyan-100 border-round"
-                    [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
-                >
-                    <i class="pi pi-building text-cyan-500 text-xl"></i>
-                </div>
-            </div>
-            <span class="text-500">2024</span>
+    <div class="grid">
+        <div class="col-12 xl:col-12">
+            <p-skeleton height="200px" />
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="col-12 xl:col-6">
+            <p-skeleton height="200px" />
+        </div>
+        <div class="col-12 xl:col-6">
+            <p-skeleton height="200px" />
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="col-12 xl:col-6">
+            <p-skeleton height="250px" />
+        </div>
+        <div class="col-12 xl:col-6">
+            <p-skeleton height="250px" />
         </div>
     </div>
 </div>
 
-<div class="grid">
-    <div class="col-12 xl:col-12">
-        <div class="card">
-            <p-chart
-                type="line"
-                [data]="clientSavingsChartData"
-                [options]="chartOptions"
-                height="200"
-            ></p-chart>
+<div *ngIf="!sectionLoading">
+    <h3>Fresenius Medical Care</h3>
+    <div class="grid">
+        <div class="col-12 lg:col-3 xl:col-3">
+            <div class="card mb-0" style="padding: 20px">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-1"
+                            >Total Savings</span
+                        >
+                        <div class="text-900 font-medium text-xl">
+                            ${{ totalSavings | number : "1.2-2" }}
+                        </div>
+                    </div>
+                    <div
+                        class="flex align-items-center justify-content-center bg-blue-100 border-round"
+                        [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+                    >
+                        <i class="pi pi-money-bill text-blue-500 text-xl"></i>
+                    </div>
+                </div>
+                <p-dropdown
+                    [options]="totalSavingsPerYear"
+                    optionLabel="year"
+                    placeholder="Select Year"
+                    (onChange)="onSavingsYearChange($event)"
+                    [(ngModel)]="selectedSavingsYear"
+                ></p-dropdown>
+            </div>
+        </div>
+        <div class="col-12 lg:col-3 xl:col-3">
+            <div class="card mb-0" style="padding: 20px">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-1"
+                            >Total Taxes</span
+                        >
+                        <div class="text-900 font-medium text-xl">
+                            ${{ totalTaxes | number : "1.2-2" }}
+                        </div>
+                    </div>
+                    <div
+                        class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                        [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+                    >
+                        <i class="pi pi-calculator text-orange-500 text-xl"></i>
+                    </div>
+                </div>
+                <p-dropdown
+                    [options]="totalTaxesPerYear"
+                    optionLabel="year"
+                    placeholder="Select Year"
+                    (onChange)="onTaxYearChange($event)"
+                    [(ngModel)]="selectedTaxYear"
+                />
+            </div>
+        </div>
+        <div class="col-12 lg:col-3 xl:col-3">
+            <div class="card mb-0" style="padding: 20px">
+                <div class="flex justify-content-between mb-3">
+                    <div>
+                        <span class="block text-500 font-medium mb-1"
+                            >Total Value</span
+                        >
+                        <div class="text-900 font-medium text-xl">
+                            ${{ totalValue | number : "1.2-2" }}
+                        </div>
+                    </div>
+                    <div
+                        class="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                        [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+                    >
+                        <i class="pi pi-building text-cyan-500 text-xl"></i>
+                    </div>
+                </div>
+                <p-dropdown
+                    (onChange)="onValueYearChange($event)"
+                    [options]="totalValuePerYear"
+                    optionLabel="year"
+                    placeholder="Select Year"
+                    [(ngModel)]="selectedValueYear"
+                />
+            </div>
         </div>
     </div>
-</div>
 
-<div class="grid">
-    <div class="col-12 xl:col-6">
-        <div class="card">
-            <p-chart
-                type="line"
-                [data]="clientTaxesChartData"
-                [options]="chartOptions"
-                height="200"
-            ></p-chart>
-        </div>
-    </div>
-    <div class="col-12 xl:col-6">
-        <div class="card">
-            <p-chart
-                type="line"
-                [data]="clientPropertyValuesChartData"
-                [options]="chartOptions"
-                height="200"
-            ></p-chart>
-        </div>
-    </div>
-</div>
+    <div class="grid">
+        <div class="col-12 xl:col-12">
+            <div class="card" style="position: relative">
+                <div style="position: absolute; right: 10px; top: 10px">
+                    <p-dropdown
+                        [options]="yearTrend"
+                        optionLabel="year"
+                        placeholder="Select Year"
+                        [style]="{ padding: '0px' }"
+                        (onChange)="onYearTrendChange($event)"
+                        [(ngModel)]="selectedYearTrend"
+                    />
+                </div>
 
-<div class="grid">
-    <div class="col-12 xl:col-6">
-        <div class="card">
-            <h5>Top Assessors For California</h5>
-            <p-chart
-                type="bar"
-                [data]="topAssessorsData"
-                [options]="StackedOptions"
-                height="400"
-            >
-            </p-chart>
+                <p-chart
+                    type="line"
+                    [data]="clientSavingsChartData"
+                    [options]="chartOptions"
+                    height="200"
+                ></p-chart>
+            </div>
         </div>
     </div>
-    <div class="col-12 xl:col-6">
-        <div class="card">
-            <h5>Taxes Per State</h5>
-            <highcharts-chart
-                [Highcharts]="Highcharts"
-                [constructorType]="chartConstructor"
-                [options]="chartMapOptions"
-                style="width: 100%; display: block"
-            ></highcharts-chart>
+
+    <div class="grid">
+        <div class="col-12 xl:col-6">
+            <div class="card" style="position: relative">
+                <div style="position: absolute; right: 10px; top: 10px">
+                    <p-dropdown
+                        [options]="yearTrend"
+                        optionLabel="year"
+                        placeholder="Select Year"
+                        [style]="{ padding: '0px' }"
+                        (onChange)="onYearTrendChange($event)"
+                        [(ngModel)]="selectedYearTrend"
+                    />
+                </div>
+                <p-chart
+                    type="line"
+                    [data]="clientTaxesChartData"
+                    [options]="chartOptions"
+                    height="200"
+                ></p-chart>
+            </div>
+        </div>
+        <div class="col-12 xl:col-6">
+            <div class="card" style="position: relative">
+                <div style="position: absolute; right: 10px; top: 10px">
+                    <p-dropdown
+                        [options]="yearTrend"
+                        optionLabel="year"
+                        placeholder="Select Year"
+                        [style]="{ padding: '0px' }"
+                        (onChange)="onYearTrendChange($event)"
+                        [(ngModel)]="selectedYearTrend"
+                    />
+                </div>
+                <p-chart
+                    type="line"
+                    [data]="clientPropertyValuesChartData"
+                    [options]="chartOptions"
+                    height="200"
+                ></p-chart>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="col-12 xl:col-6">
+            <div class="card">
+                <div
+                    class="top-card-section"
+                    style="display: flex; justify-content: space-between"
+                >
+                    <h5>Top Assessors For {{ selectedAssessorState.state }}</h5>
+
+                    <p-dropdown
+                        [options]="usStates"
+                        optionLabel="abbr"
+                        placeholder="Select State"
+                        [style]="{ padding: '0px' }"
+                        [(ngModel)]="selectedAssessorState"
+                        (onChange)="onStateChange($event)"
+                    />
+                </div>
+
+                <div
+                    style="
+                    display: flex;
+                        height: 400px;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                    "
+
+                    *ngIf="topAssessorsLoading"
+                >
+                    <p-progressSpinner
+                        styleClass="w-2rem h-2rem"
+                        strokeWidth="4"
+                        fill="var(--surface-ground)"
+                        animationDuration="1s"
+                    />
+                </div>
+
+                <div *ngIf="!topAssessorsLoading">
+                    <p-chart
+                        type="bar"
+                        [data]="topAssessorsData"
+                        [options]="StackedOptions"
+                        height="400"
+                    >
+                    </p-chart>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 xl:col-6">
+            <div class="card">
+                <div
+                    class="top-card-section"
+                    style="display: flex; justify-content: space-between"
+                >
+                    <h5>Taxes Per State</h5>
+
+                    <p-dropdown
+                        [options]="usStateYears"
+                        optionLabel="label"
+                        placeholder="Select Year"
+                        [style]="{ padding: '0px' }"
+                        (onChange)="onStateYearChange($event)"
+                    />
+                </div>
+
+                <div
+                    style="
+                    display: flex;
+                        height: 400px;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                    "
+
+                    *ngIf="taxPerStateLoading"
+                >
+                    <p-progressSpinner
+                        styleClass="w-2rem h-2rem"
+                        strokeWidth="4"
+                        fill="var(--surface-ground)"
+                        animationDuration="1s"
+                    />
+                </div>
+
+                <div *ngIf="!taxPerStateLoading">
+                    <highcharts-chart
+                    [Highcharts]="Highcharts"
+                    [constructorType]="chartConstructor"
+                    [options]="chartMapOptions"
+                    style="width: 100%; display: block"
+                ></highcharts-chart>
+                </div>
+                
+            </div>
         </div>
     </div>
 </div>

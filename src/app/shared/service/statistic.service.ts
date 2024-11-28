@@ -42,16 +42,23 @@ export class StatisticService {
         );
     }
 
-    getTopAssessors(): Observable<any> {
+    getTopAssessors(state: string): Observable<any> {
         // dummy data
         return this.http.get<{ data: any }>('assets/demo/data/top-assessors.json').pipe(
-            map(response => response.data)
+            map(response => response.data[state])
         );
     }
 
-    getTaxesPerState(): Observable<any> {
+    getTaxesPerState(year: string): Observable<any> {
         // dummy data
-        return this.http.get<{ data: any }>('assets/demo/data/client-taxes-per-state.json').pipe(
+        return this.http.get<{ data: any }>('assets/demo/data/taxes-per-state.json').pipe(
+            map(response => response.data[year])
+        );
+    }
+
+    getUSStates(): Observable<any> {
+        // dummy data
+        return this.http.get<{ data: any }>('assets/demo/data/us-states.json').pipe(
             map(response => response.data)
         );
     }

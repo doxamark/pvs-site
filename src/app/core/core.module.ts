@@ -13,6 +13,9 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { PasswordModule } from 'primeng/password';
 import { LoginComponent } from './login/login.component';
 import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { SkeletonModule } from 'primeng/skeleton';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 @NgModule({
@@ -32,8 +35,10 @@ import { InputTextModule } from 'primeng/inputtext';
         ButtonModule,
         HighchartsChartModule,
         PasswordModule,
-        InputTextModule
-        
+        InputTextModule,
+        DropdownModule,
+        SkeletonModule,
+        ProgressSpinnerModule
     ],
     providers: [],
 })

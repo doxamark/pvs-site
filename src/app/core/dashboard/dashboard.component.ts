@@ -13,19 +13,20 @@ const usaMap = require('@highcharts/map-collection/countries/us/us-all.geo.json'
 
 @Component({
     templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+    sectionLoading: boolean = false;
+    topAssessorsLoading: boolean = false;
+    taxPerStateLoading: boolean = false;
     totalSavings: number = 0;
     totalTaxes: number = 0;
     totalValue: number = 0;
 
-    totalSavingsPerYear: number[] = [];
-    totalTaxesPerYear: number[] = [];
-    totalValuePerYear: number[] = [];
+    totalSavingsPerYear: any[] = [];
+    totalTaxesPerYear: any[] = [];
+    totalValuePerYear: any[] = [];
 
-    clientSavings: any[] = [];
-    clientTaxes: any[] = [];
-    clientPropertyValues: any[] = [];
     topAssessors: any[] = [];
     taxesPerState: any[] = [];
 
@@ -37,38 +38,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
     chartConstructor = 'mapChart';
     chartOptions: any;
 
-    products!: any[];
-
     chartMapOptions: any;
     subscription!: Subscription;
 
-    topAssessorsData: any = {
-        labels: [
-            'Los Angeles',
-            'San Diego',
-            'Orange',
-            'San Bernardino',
-            'Riverside',
-            'Santa Clara',
-            'Alameda',
-            'Sacramento',
-            'Fresno',
-            'San Francisco',
-        ],
-        datasets: [
-            {
-                label: 'Value',
-                backgroundColor: '#6fe9d6',
-                data: [66, 49, 81, 71, 26, 65, 60, 81, 71, 26],
-            },
-            {
-                label: 'Taxes',
-                backgroundColor: '#64bbfc',
-                data: [56, 52, 69, 81, 43, 55, 40, 69, 81, 43],
-            },
-        ],
-    };
+    selectedSavingsYear: any = {};
+    selectedTaxYear: any = {};
+    selectedValueYear: any = {};
+    selectedAssessorState: any = { state: 'Alabama', abbr: 'AL' };
 
+    yearTrend: any[] = [
+        { year: '5 years', value: 5 },
+        { year: '10 years', value: 10 },
+        { year: '15 years', value: 15 },
+    ];
+
+    selectedYearTrend: any = this.yearTrend[0];
+
+    usStateYears: any[] = [];
+    selectedStateYear: any = {};
+
+    usStates: any[] = [];
+    topAssessorsData: any = [];
     StackedOptions = {
         indexAxis: 'y',
         plugins: {
@@ -109,99 +99,118 @@ export class DashboardComponent implements OnInit, OnDestroy {
             .subscribe((config) => {
                 this.initChart();
             });
+
+        this.statisticService.getUSStates().subscribe((usStates) => {
+            this.usStates = usStates;
+        });
     }
 
     ngOnInit() {
+        this.usStateYears = this.generateYearOptions(
+            2000,
+            new Date().getFullYear()
+        );
+        this.selectedStateYear = this.usStateYears[0];
         this.getStatistics();
+    }
+
+    onSavingsYearChange(event: any): void {
+        this.selectedSavingsYear = event.value;
+        this.totalSavings = event.value.value;
+    }
+
+    onTaxYearChange(event: any): void {
+        this.selectedTaxYear = event.value;
+        this.totalTaxes = event.value.value;
+    }
+
+    onValueYearChange(event: any): void {
+        this.selectedValueYear = event.value;
+        this.totalValue = event.value.value;
+    }
+
+    onYearTrendChange(event: any): void {
+        this.selectedYearTrend = event.value;
         this.initChart();
-        this.initMap()
-        
+    }
+
+    onStateChange(event: any): void {
+        this.topAssessorsLoading = true;
+        this.selectedAssessorState = event.value;
+        this.statisticService
+            .getTopAssessors(this.selectedAssessorState.state)
+            .subscribe((topAssessors) => {
+                this.topAssessors = topAssessors;
+                this.initStackGraph();
+
+                setTimeout(() => {
+                    this.topAssessorsLoading = false;
+                }, 500);
+            });
+    }
+
+    onStateYearChange(event: any): void {
+        this.taxPerStateLoading = true;
+        this.selectedStateYear = event.value;
+        this.statisticService
+            .getTaxesPerState(this.selectedStateYear.label)
+            .subscribe((taxesPerState) => {
+                this.taxesPerState = taxesPerState;
+                this.initMap();
+
+                setTimeout(() => {
+                    this.taxPerStateLoading = false;
+                }, 500);
+            });
     }
 
     getStatistics() {
+        this.sectionLoading = true;
         forkJoin({
             totalSavingsPerYear: this.statisticService.getClientSavings(),
             totalTaxesPerYear: this.statisticService.getClientTaxes(),
             totalValuePerYear: this.statisticService.getClientValue(),
-            clientTrends: this.statisticService.getClientTrends(),
-            taxesPerState: this.statisticService.getTaxesPerState(),
-            topAssessors: this.statisticService.getTopAssessors(),
+            taxesPerState: this.statisticService.getTaxesPerState(
+                this.selectedStateYear.label
+            ),
+            topAssessors: this.statisticService.getTopAssessors(
+                this.selectedAssessorState.state
+            ),
         }).subscribe(
             ({
                 totalSavingsPerYear,
                 totalTaxesPerYear,
                 totalValuePerYear,
-                clientTrends,
                 taxesPerState,
                 topAssessors,
             }) => {
                 this.totalSavingsPerYear = totalSavingsPerYear;
                 this.totalTaxesPerYear = totalTaxesPerYear;
                 this.totalValuePerYear = totalValuePerYear;
-                this.clientSavings = clientTrends.clientSavingsTrend;
-                this.clientTaxes = clientTrends.clientTaxesTrend;
-                this.clientPropertyValues = clientTrends.clientValueTrend;
                 this.taxesPerState = taxesPerState;
                 this.topAssessors = topAssessors;
+
+                this.selectedSavingsYear = this.totalSavingsPerYear[0];
+                this.totalSavings = this.totalSavingsPerYear[0].value;
+
+                this.selectedTaxYear = this.totalTaxesPerYear[0];
+                this.totalTaxes = this.totalTaxesPerYear[0].value;
+
+                this.selectedValueYear = this.totalValuePerYear[0];
+                this.totalValue = this.totalValuePerYear[0].value;
+
+                this.initChart();
+                this.initStackGraph();
+                this.initMap();
+                setTimeout(() => {
+                    this.sectionLoading = false;
+                }, 500);
             }
         );
     }
 
     initMap() {
         this.Highcharts = Highcharts;
-        const taxesPerStateVar = [
-            { id: 'us-ma', name: 'Massachusetts', value: 71340 },
-            { id: 'us-ca', name: 'California', value: 78512 },
-            { id: 'us-tx', name: 'Texas', value: 68473 },
-            { id: 'us-ny', name: 'New York', value: 78039 },
-            { id: 'us-fl', name: 'Florida', value: 55623 },
-            { id: 'us-co', name: 'Colorado', value: 40000 },
-            { id: 'us-al', name: 'Alabama', value: 0 },
-            { id: 'us-ak', name: 'Alaska', value: 0 },
-            { id: 'us-ar', name: 'Arkansas', value: 0 },
-            { id: 'us-az', name: 'Arizona', value: 52000 },
-            { id: 'us-ct', name: 'Connecticut', value: 62000 },
-            { id: 'us-de', name: 'Delaware', value: 0 },
-            { id: 'us-dc', name: 'District of Columbia', value: 0 },
-            { id: 'us-ga', name: 'Georgia', value: 51000 },
-            { id: 'us-hi', name: 'Hawaii', value: 0 },
-            { id: 'us-id', name: 'Idaho', value: 0 },
-            { id: 'us-il', name: 'Illinois', value: 65000 },
-            { id: 'us-in', name: 'Indiana', value: 47000 },
-            { id: 'us-ia', name: 'Iowa', value: 0 },
-            { id: 'us-ks', name: 'Kansas', value: 0 },
-            { id: 'us-ky', name: 'Kentucky', value: 0 },
-            { id: 'us-la', name: 'Louisiana', value: 0 },
-            { id: 'us-me', name: 'Maine', value: 0 },
-            { id: 'us-md', name: 'Maryland', value: 68000 },
-            { id: 'us-mi', name: 'Michigan', value: 48000 },
-            { id: 'us-mn', name: 'Minnesota', value: 59000 },
-            { id: 'us-ms', name: 'Mississippi', value: 0 },
-            { id: 'us-mo', name: 'Missouri', value: 47000 },
-            { id: 'us-mt', name: 'Montana', value: 0 },
-            { id: 'us-ne', name: 'Nebraska', value: 0 },
-            { id: 'us-nv', name: 'Nevada', value: 43000 },
-            { id: 'us-nh', name: 'New Hampshire', value: 0 },
-            { id: 'us-nj', name: 'New Jersey', value: 70000 },
-            { id: 'us-nm', name: 'New Mexico', value: 0 },
-            { id: 'us-nc', name: 'North Carolina', value: 55000 },
-            { id: 'us-nd', name: 'North Dakota', value: 0 },
-            { id: 'us-oh', name: 'Ohio', value: 56000 },
-            { id: 'us-ok', name: 'Oklahoma', value: 0 },
-            { id: 'us-or', name: 'Oregon', value: 47000 },
-            { id: 'us-pa', name: 'Pennsylvania', value: 67000 },
-            { id: 'us-ri', name: 'Rhode Island', value: 0 },
-            { id: 'us-sc', name: 'South Carolina', value: 45000 },
-            { id: 'us-sd', name: 'South Dakota', value: 0 },
-            { id: 'us-tn', name: 'Tennessee', value: 47000 },
-            { id: 'us-ut', name: 'Utah', value: 48000 },
-            { id: 'us-vt', name: 'Vermont', value: 0 },
-            { id: 'us-va', name: 'Virginia', value: 66000 },
-            { id: 'us-wa', name: 'Washington', value: 72000 },
-            { id: 'us-wv', name: 'West Virginia', value: 0 },
-            { id: 'us-wi', name: 'Wisconsin', value: 47000 },
-            { id: 'us-wy', name: 'Wyoming', value: 0 },
-        ];
 
         this.chartMapOptions = {
             chart: {
@@ -236,7 +245,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 {
                     name: 'GDP per State',
                     mapData: usaMap,
-                    data: taxesPerStateVar,
+                    data: this.taxesPerState,
                     joinBy: ['hc-key', 'id'],
                     states: {
                         hover: {
@@ -260,21 +269,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
         );
         const surfaceBorder =
             documentStyle.getPropertyValue('--surface-border');
-
         this.clientSavingsChartData = {
-            labels: [
-                'January',
-                'February',
-                'March',
-                'April',
-                'May',
-                'June',
-                'July',
-            ],
+            labels: this.totalSavingsPerYear
+                .slice(1, this.selectedYearTrend.value + 1)
+                .map((item) => item.year)
+                .reverse(),
             datasets: [
                 {
                     label: 'Client Savings Trend Over The Years',
-                    data: [28, 48, 40, 19, 86, 27, 90],
+                    data: this.totalSavingsPerYear
+                        .slice(1, this.selectedYearTrend.value + 1)
+                        .map((item) => item.value)
+                        .reverse(),
                     fill: true,
                     backgroundColor: '#d6efff',
                     borderColor: documentStyle.getPropertyValue('--blue-300'),
@@ -284,19 +290,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
         };
 
         this.clientTaxesChartData = {
-            labels: [
-                'January',
-                'February',
-                'March',
-                'April',
-                'May',
-                'June',
-                'July',
-            ],
+            labels: this.totalTaxesPerYear
+                .slice(0, this.selectedYearTrend.value)
+                .map((item) => item.year)
+                .reverse(),
             datasets: [
                 {
                     label: 'Client Taxes Trend Over The Years',
-                    data: [28, 48, 40, 19, 86, 27, 90],
+                    data: this.totalTaxesPerYear
+                        .slice(0, this.selectedYearTrend.value)
+                        .map((item) => item.value)
+                        .reverse(),
                     fill: true,
                     backgroundColor: '#d6efff',
                     borderColor: documentStyle.getPropertyValue('--blue-300'),
@@ -306,19 +310,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
         };
 
         this.clientPropertyValuesChartData = {
-            labels: [
-                'January',
-                'February',
-                'March',
-                'April',
-                'May',
-                'June',
-                'July',
-            ],
+            labels: this.totalValuePerYear
+                .slice(0, this.selectedYearTrend.value)
+                .map((item) => item.year)
+                .reverse(),
             datasets: [
                 {
                     label: 'Client Property Value Trend Over The Years',
-                    data: [28, 48, 40, 19, 86, 27, 90],
+                    data: this.totalValuePerYear
+                        .slice(0, this.selectedYearTrend.value)
+                        .map((item) => item.value)
+                        .reverse(),
                     fill: true,
                     backgroundColor: '#d6efff',
                     borderColor: documentStyle.getPropertyValue('--blue-300'),
@@ -358,6 +360,35 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 },
             },
         };
+    }
+
+    initStackGraph() {
+        this.topAssessorsData = {
+            labels: this.topAssessors.map((item) => item.name),
+            datasets: [
+                {
+                    label: 'Value',
+                    backgroundColor: '#6fe9d6',
+                    data: this.topAssessors.map((item) => item.value),
+                },
+                {
+                    label: 'Taxes',
+                    backgroundColor: '#64bbfc',
+                    data: this.topAssessors.map((item) => item.tax),
+                },
+            ],
+        };
+    }
+
+    generateYearOptions(
+        startYear: number,
+        endYear: number
+    ): { label: string; value: number }[] {
+        const options = [];
+        for (let year = endYear; year >= startYear; year--) {
+            options.push({ label: year.toString(), value: year });
+        }
+        return options;
     }
 
     ngOnDestroy() {
