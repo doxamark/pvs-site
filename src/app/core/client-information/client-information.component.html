@@ -1,1 +1,79 @@
-<p>client-information works!</p>
+
+<br>
+<h4 class="client-info-header">
+    <i class="pi pi-user" style="font-size: 24px; margin: 0px 5px; color: #007bff;"></i> <!-- Add the icon here -->
+    Client Information
+  </h4>
+
+<div class="grid">
+    <div class="col-12 xl:col-12">
+        <div class="card">
+            <div class="client-details">
+                <!-- Client Info Section -->
+                <div class="info-section">
+                    <div class="info-label">Name:</div>
+                    <div class="info-value">
+                        Fresenius Medical Care 
+                        <i class="pi pi-copy copy-icon" (click)="copyToClipboard('Fresenius Medical Care')"></i>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <div class="info-label">Phone:</div>
+                    <div class="info-value">
+                        +1 (123) 456-7890 
+                        <i class="pi pi-copy copy-icon" (click)="copyToClipboard('+1 (123) 456-7890')"></i>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <div class="info-label">Addr 1:</div>
+                    <div class="info-value">
+                        Reservoir Woods 
+                        <i class="pi pi-copy copy-icon" (click)="copyToClipboard('Reservoir Woods')"></i>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <div class="info-label">Addr 2:</div>
+                    <div class="info-value">
+                        920 Winter Street 
+                        <i class="pi pi-copy copy-icon" (click)="copyToClipboard('920 Winter Street')"></i>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <div class="info-label">City:</div>
+                    <div class="info-value">
+                        Waltham 
+                        <i class="pi pi-copy copy-icon" (click)="copyToClipboard('Waltham')"></i>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <div class="info-label">State:</div>
+                    <div class="info-value">
+                        MA 
+                        <i class="pi pi-copy copy-icon" (click)="copyToClipboard('MA')"></i>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <div class="info-label">Zip:</div>
+                    <div class="info-value">
+                        02451-1457 
+                        <i class="pi pi-copy copy-icon" (click)="copyToClipboard('02451-1457')"></i>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <div class="info-label">LOA Expiration:</div>
+                    <div class="info-value">
+                        12/31/2025 
+                        <i class="pi pi-copy copy-icon" (click)="copyToClipboard('12/31/2025')"></i>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <div class="info-label">Website:</div>
+                    <div class="info-value">
+                        <a href="https://fmcna.com" target="_blank">fmcna.com</a>
+                        <i class="pi pi-copy copy-icon" (click)="copyToClipboard('https://fmcna.com')"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

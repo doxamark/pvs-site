@@ -1,0 +1,77 @@
+/* Container for the entire client details section */
+.client-info-header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* Card style */
+.card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Info section label and value styles */
+.client-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Individual label-value pairs */
+.info-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Label style */
+.info-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Value style */
+.info-value {
+    font-size: 16px;
+    color: #666;
+    word-wrap: break-word;
+}
+
+/* Link styling for website */
+.info-value a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.info-value a:hover {
+    color: #0056b3;
+}
+
+
+/* Copy icon styling */
+.copy-icon {
+    font-size: 18px;
+    color: #007bff;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.copy-icon:hover {
+    color: #0056b3;
+}
+
+/* Optional: Add spacing between label and value */
+.info-value {
+    display: flex;
+    align-items: center;
+}

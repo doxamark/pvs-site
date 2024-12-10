@@ -26,3 +26,9 @@ a {
 .layout-wrapper {
     min-height: 100vh;
 }
+
+@media (max-width: 991px) {
+    .inner-section-layout {
+        margin-top: 70px;
+    }
+}

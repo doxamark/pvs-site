@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CoreRoutingModule } from './core-routing.module';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartModule } from 'primeng/chart';
 import { MenuModule } from 'primeng/menu';
 import { TableModule } from 'primeng/table';
@@ -16,6 +16,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -38,8 +40,12 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
         InputTextModule,
         DropdownModule,
         SkeletonModule,
-        ProgressSpinnerModule
+        ProgressSpinnerModule,
+        ReactiveFormsModule,
+        ToastModule,
     ],
-    providers: [],
+    providers: [
+        MessageService
+    ],
 })
 export class CoreModule {}

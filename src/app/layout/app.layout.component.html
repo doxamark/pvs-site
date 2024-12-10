@@ -1,10 +1,45 @@
 <div class="layout-wrapper" [ngClass]="containerClass">
+    <div class="topBarSection">
+        <app-topbar></app-topbar>
+    </div>
+        
+    
     <div class="layout-sidebar">
         <app-sidebar></app-sidebar>
     </div>
     <div class="layout-main-container">
         <div class="layout-main">
-            <router-outlet></router-outlet>
+            <div class="inner-section-layout">
+                <router-outlet></router-outlet>
+            </div>
         </div>
     </div>
+    <p-toast />
+    <p-dialog
+        [modal]="true"
+        [(visible)]="visible"
+        [style]="{ width: '40rem' }"
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+        [draggable]="false"
+    >
+    <ng-template pTemplate="header"> 
+        <div style="display: flex; align-items: center;">
+            <span class="pi pi-info-circle" style="margin-right: 10px; color: #007ad9; font-size: 1.5rem;"></span>
+        <h5>PVS Disclaimer</h5>
+        </div>
+        
+      </ng-template>
+        <p style="text-align: justify; padding: 0px 10px; padding-bottom: 10px;">
+            Delivery of information to Client via the PVS website is to be used
+            for informational purposes only. Although the PVS website is secure,
+            client understands there are certain risks associated with the
+            availability of and delivery of this information to Client. Should
+            Client need this information for uses other than informational;
+            Client should contact its PVS consultant for complete and up-to-date
+            information.
+        </p>
+    </p-dialog>
+
+
+
 </div>
