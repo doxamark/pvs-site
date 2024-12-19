@@ -75,3 +75,9 @@
     display: flex;
     align-items: center;
 }
+
+.center-content {
+    display: grid;
+    place-items: center;  /* This will center content both horizontally and vertically */
+    height: 100%;          /* Ensures the container has a height for vertical centering */
+  }

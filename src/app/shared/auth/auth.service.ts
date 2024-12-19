@@ -11,6 +11,7 @@ export class AuthService {
   // Check if the user is logged in
   isLoggedIn(): boolean {
     const token = this.getToken();
+    console.log(token)
     return !!token
   }
 
@@ -22,6 +23,10 @@ export class AuthService {
   // Save JWT token to localStorage
   setToken(token: string): void {
     localStorage.setItem(this.tokenKey, token);
+  }
+
+  setClientName(name: string): void {
+    localStorage.setItem('clientName', name);
   }
 
   // Remove token from localStorage

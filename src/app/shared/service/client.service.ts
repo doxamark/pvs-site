@@ -3,22 +3,24 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-@Injectable()
-export class StatisticService {
+
+@Injectable({
+    providedIn: 'root',
+  })
+export class ClientService {
+    private apiUrl = 'http://localhost:3000/api'; // Your API base URL
     constructor(private http: HttpClient) {}
 
-    login(): Observable<any> {
-        // dummy data
-        return this.http.get<{ data: any }>('assets/demo/data/client-dummy-credentials.json').pipe(
-            map(response => response.data)
+    login(username: string, password: string): Observable<any> {
+        return this.http.post<{ token: string }>(`${this.apiUrl}/login`, { username, password }).pipe(
+          map(response => response)
         );
-    }
-
-    getClientInformation(): Observable<any> {
-        // dummy data
-        return this.http.get<{ data: any }>('assets/demo/data/client-dummy-information.json').pipe(
-            map(response => response.data)
+      }
+      
+      getClientInformation(): Observable<any> {
+        return this.http.get<{ message: string, data: any }>(`${this.apiUrl}/client`).pipe(
+          map(response => response)
         );
-    }
+      }
 
 }

@@ -18,12 +18,14 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { ClientInformationComponent } from './client-information/client-information.component';
 
 
 @NgModule({
     declarations: [
         DashboardComponent, 
-        LoginComponent
+        LoginComponent,
+        ClientInformationComponent
     ],
     imports: [
         CommonModule,

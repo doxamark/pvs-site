@@ -43,7 +43,7 @@
 </div>
 
 <div *ngIf="!sectionLoading">
-    <h3>Fresenius Medical Care</h3>
+    <h3 *ngIf="clientName">{{clientName}}</h3>
     <div class="grid">
         <div class="col-12 lg:col-3 xl:col-3">
             <div class="card mb-0" style="padding: 20px">

@@ -16,6 +16,8 @@ const usaMap = require('@highcharts/map-collection/countries/us/us-all.geo.json'
     styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+    clientName: string = ''
+
     sectionLoading: boolean = false;
     topAssessorsLoading: boolean = false;
     taxPerStateLoading: boolean = false;
@@ -106,6 +108,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.clientName = localStorage.getItem('clientName')
         this.usStateYears = this.generateYearOptions(
             2000,
             new Date().getFullYear()
